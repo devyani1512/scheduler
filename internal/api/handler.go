@@ -171,7 +171,7 @@ func (h *Handler) UpdateTask(c *gin.Context) {
 	c.JSON(http.StatusOK, existing)
 }
 
-// DELETE /tasks/:id  (soft cancel)
+// DELETE /tasks/:id
 func (h *Handler) CancelTask(c *gin.Context) {
 	id := c.Param("id")
 	if _, err := h.store.GetTask(c.Request.Context(), id); err != nil {
@@ -221,7 +221,7 @@ func (h *Handler) ListAllResults(c *gin.Context) {
 	c.JSON(http.StatusOK, paginate(results, total, pq))
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+//  Helpers 
 
 func (h *Handler) resolveNextRun(trigger entity.Trigger) (*time.Time, error) {
 	now := time.Now().UTC()
