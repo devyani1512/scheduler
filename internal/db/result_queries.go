@@ -31,21 +31,21 @@ func (d *DB) ListTaskResults(ctx context.Context, taskID string, pq dto.Paginati
 	offset := (pq.Page - 1) * pq.Limit
 	args := []interface{}{taskID}
 	argIdx := 2
-	where := "WHERE task_id=$1" // ← was "task+0d=$1", typo
+	where := "WHERE task_id=$1" 
 
 	if pq.Status == "success" {
-		where += fmt.Sprintf(" AND success=$%d", argIdx) // ← was missing AND
+		where += fmt.Sprintf(" AND success=$%d", argIdx) 
 		args = append(args, true)
 		argIdx++
 	} else if pq.Status == "failed" {
-		where += fmt.Sprintf(" AND success=$%d", argIdx) // ← was missing AND
+		where += fmt.Sprintf(" AND success=$%d", argIdx) 
 		args = append(args, false)
 		argIdx++
 	}
 
 	var total int
 	if err := d.Conn.QueryRowContext(ctx, "SELECT COUNT(*) FROM task_results "+where, args...).Scan(&total); err != nil {
-		return nil, 0, err // ← was "tasks_results", typo
+		return nil, 0, err 
 	}
 
 	args = append(args, pq.Limit, offset)
@@ -73,7 +73,7 @@ func (d *DB) ListTaskResults(ctx context.Context, taskID string, pq dto.Paginati
 	return results, total, rows.Err()
 }
 
-// ListAllResults ← this was completely missing
+
 func (d *DB) ListAllResults(ctx context.Context, taskID string, pq dto.PaginationQuery) ([]*entity.TaskResult, int, error) {
 	offset := (pq.Page - 1) * pq.Limit
 	args := []interface{}{}
